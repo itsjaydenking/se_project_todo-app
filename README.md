@@ -7,7 +7,6 @@ A minimalistic, single-page Todo application built with vanilla JavaScript, HTML
 - **Add Todos:** Enter a task in the input field and add it to your todo list.
 - **Mark as Complete:** Click the checkbox next to a todo to mark it as completed. Completed todos are visually distinguished.
 - **Delete Todos:** Remove tasks from your list with the delete button.
-- **Persistent Storage:** Todos are saved in your browser's local storage, so your list remains after refreshing the page.
 - **Responsive Design:** The app works well on both desktop and mobile devices.
 
 ## Technology
