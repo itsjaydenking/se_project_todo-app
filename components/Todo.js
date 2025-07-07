@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
+
 class Todo {
   constructor(data, selector) {
     this.data = data;
@@ -31,13 +33,20 @@ class Todo {
 
   _formatDueDate() {
     if (!this.data.date) return "";
+
+    let dateObj;
     if (this.data.date instanceof Date) {
-      return this.data.date.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
+      dateObj = this.data.date;
+    } else {
+      dateObj = new Date(this.data.date);
+      if (isNaN(dateObj.getTime())) return this.data.date;
     }
+
+    return dateObj.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
     return this.data.date;
   }
 
@@ -66,7 +75,7 @@ class Todo {
     const checkbox = todoElement.querySelector(".todo__completed");
     if (checkbox) {
       checkbox.checked = !!this.data.completed;
-      const uniqueId = `todo-${crypto.randomUUID()}`;
+      const uniqueId = `todo-${uuidv4()}`;
       checkbox.id = uniqueId;
       const label = todoElement.querySelector(".todo__label");
       if (label) {

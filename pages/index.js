@@ -1,4 +1,3 @@
-// File: pages/index.js
 import { initialTodos, validationConfig } from "../utils/constants.js";
 import Todo from "../components/Todo.js";
 import FormValidator from "../components/FormValidator.js";
@@ -8,7 +7,7 @@ const addTodoPopup = document.querySelector("#add-todo-popup");
 const addTodoForm = document.querySelector("#add-todo-form");
 const addTodoCloseBtn = addTodoPopup.querySelector(".popup__close");
 const todosList = document.querySelector(".todos__list");
-const counterText = document.querySelector(".counter__text"); // ✅ YOU NEED THIS
+const counterText = document.querySelector(".counter__text");
 
 const openModal = (modal) => {
   modal.classList.add("popup_visible");
@@ -61,11 +60,7 @@ addTodoForm.addEventListener("submit", (evt) => {
   let date = "";
   if (dateInput) {
     const dateObj = new Date(dateInput);
-    date = dateObj.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+    date = dateObj.toISOString();
   }
 
   const values = { name, date, completed: false };
@@ -78,7 +73,6 @@ addTodoForm.addEventListener("submit", (evt) => {
   updateCounter();
 });
 
-// Initial load
 initialTodos.forEach((item) => {
   const todoElement = generateTodo(item);
   todosList.append(todoElement);
