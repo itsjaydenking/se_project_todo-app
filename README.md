@@ -15,7 +15,6 @@ A minimalistic, single-page Todo application built with vanilla JavaScript, HTML
 - **HTML5:** Semantic structure for accessibility and clarity.
 - **CSS3:** Responsive and clean styling.
 - **JavaScript (ES6):** Handles all app logic, DOM manipulation, and local storage.
-- **Local Storage API:** Persists todos between sessions.
 
 ![Screenshot of Simple Todo App](./assets/screenshot.png)
 
