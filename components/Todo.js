@@ -4,18 +4,24 @@ class Todo {
   constructor(data, selector) {
     this.data = data;
     this.selector = selector;
+
     this.element = null;
+    this.nameEl = null;
+    this.dateEl = null;
+    this.checkboxEl = null;
+    this.labelEl = null;
+    this.deleteBtn = null;
   }
 
   _setEventListeners() {
-    const deleteBtn = this.element.querySelector(".todo__delete-btn");
-    if (deleteBtn) {
-      deleteBtn.addEventListener("click", () => this._deleteTodo());
+    if (this.deleteBtn) {
+      this.deleteBtn.addEventListener("click", () => this._deleteTodo());
     }
 
-    const checkbox = this.element.querySelector(".todo__completed");
-    if (checkbox) {
-      checkbox.addEventListener("change", (evt) => this._toggleComplete(evt));
+    if (this.checkboxEl) {
+      this.checkboxEl.addEventListener("change", (evt) =>
+        this._toggleComplete(evt)
+      );
     }
   }
 
@@ -47,7 +53,6 @@ class Todo {
       month: "short",
       day: "numeric",
     });
-    return this.data.date;
   }
 
   getView() {
@@ -62,29 +67,35 @@ class Todo {
       throw new Error(`No element with class "todo" in template`);
     }
 
-    const nameEl = todoElement.querySelector(".todo__name");
-    if (nameEl) {
-      nameEl.textContent = this.data.name ?? "";
+    this.element = todoElement;
+
+    this.nameEl = this.element.querySelector(".todo__name");
+    this.dateEl = this.element.querySelector(".todo__date");
+    this.checkboxEl = this.element.querySelector(".todo__completed");
+    this.labelEl = this.element.querySelector(".todo__label");
+    this.deleteBtn = this.element.querySelector(".todo__delete-btn");
+
+    if (this.nameEl) {
+      this.nameEl.textContent = this.data.name ?? "";
     }
 
-    const dateEl = todoElement.querySelector(".todo__date");
-    if (dateEl) {
-      dateEl.textContent = this._formatDueDate();
+    if (this.dateEl) {
+      this.dateEl.textContent = this._formatDueDate();
     }
 
-    const checkbox = todoElement.querySelector(".todo__completed");
-    if (checkbox) {
-      checkbox.checked = !!this.data.completed;
+    if (this.checkboxEl) {
+      this.checkboxEl.checked = !!this.data.completed;
+
       const uniqueId = `todo-${uuidv4()}`;
-      checkbox.id = uniqueId;
-      const label = todoElement.querySelector(".todo__label");
-      if (label) {
-        label.setAttribute("for", uniqueId);
+      this.checkboxEl.id = uniqueId;
+
+      if (this.labelEl) {
+        this.labelEl.setAttribute("for", uniqueId);
       }
     }
 
-    this.element = todoElement;
     this._setEventListeners();
+
     return this.element;
   }
 }

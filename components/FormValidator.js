@@ -67,13 +67,8 @@ class FormValidator {
   }
 
   resetValidation() {
-    this._inputList.forEach((inputElement) => {
-      const errorElement = this._form.querySelector(
-        `#${inputElement.id}-error`
-      );
-      this._hideInputError(inputElement, errorElement);
-    });
-    this._toggleButtonState();
+    this._form.reset(); 
+    this._toggleButtonState(); 
   }
 }
 

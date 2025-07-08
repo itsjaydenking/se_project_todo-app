@@ -4,7 +4,7 @@ import FormValidator from "../components/FormValidator.js";
 
 const addTodoButton = document.querySelector(".button_action_add");
 const addTodoPopup = document.querySelector("#add-todo-popup");
-const addTodoForm = document.querySelector("#add-todo-form");
+const addTodoForm = document.forms["add-todo-form"];
 const addTodoCloseBtn = addTodoPopup.querySelector(".popup__close");
 const todosList = document.querySelector(".todos__list");
 const counterText = document.querySelector(".counter__text");
@@ -15,6 +15,11 @@ const openModal = (modal) => {
 
 const closeModal = (modal) => {
   modal.classList.remove("popup_visible");
+};
+
+const renderTodo = (item) => {
+  const todoElement = generateTodo(item);
+  todosList.append(todoElement);
 };
 
 function updateCounter() {
@@ -64,8 +69,7 @@ addTodoForm.addEventListener("submit", (evt) => {
   }
 
   const values = { name, date, completed: false };
-  const todoElement = generateTodo(values);
-  todosList.append(todoElement);
+  renderTodo(values);
 
   closeModal(addTodoPopup);
   addTodoForm.reset();
@@ -74,8 +78,7 @@ addTodoForm.addEventListener("submit", (evt) => {
 });
 
 initialTodos.forEach((item) => {
-  const todoElement = generateTodo(item);
-  todosList.append(todoElement);
+  renderTodo(item);
 });
 updateCounter();
 
