@@ -2,12 +2,18 @@ import { initialTodos, validationConfig } from "../utils/constants.js";
 import Todo from "../components/Todo.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../utils/Section.js";
+import PopupWithForm from "../utils/PopupWithForm.js";
+
+const addTodoPopup = new PopupWithForm({
+  popupSelector: "#add-todo-popup",
+  handleFormSubmit: () => {},
+});
 
 // === DOM ELEMENTS ===
 const addTodoButton = document.querySelector(".button_action_add");
-const addTodoPopup = document.querySelector("#add-todo-popup");
+const addTodoPopupElement = document.querySelector("#add-todo-popup");
 const addTodoForm = document.forms["add-todo-form"];
-const addTodoCloseBtn = addTodoPopup.querySelector(".popup__close");
+const addTodoCloseBtn = addTodoPopupElement.querySelector(".popup__close");
 const counterText = document.querySelector(".counter__text");
 
 // === MODAL HELPERS ===
@@ -67,11 +73,11 @@ formValidator.resetValidation();
 
 // === EVENT LISTENERS ===
 addTodoButton.addEventListener("click", () => {
-  openModal(addTodoPopup);
+  openModal(addTodoPopupElement);
 });
 
 addTodoCloseBtn.addEventListener("click", () => {
-  closeModal(addTodoPopup);
+  closeModal(addTodoPopupElement);
 });
 
 addTodoForm.addEventListener("submit", (evt) => {
@@ -95,7 +101,7 @@ addTodoForm.addEventListener("submit", (evt) => {
 
   todoSection.addItem(newTodoData);
 
-  closeModal(addTodoPopup);
+  closeModal(addTodoPopupElement);
   addTodoForm.reset();
   formValidator.resetValidation();
   updateCounter();
