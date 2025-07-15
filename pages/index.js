@@ -1,9 +1,9 @@
 import { initialTodos, validationConfig } from "../utils/constants.js";
 import Todo from "../components/Todo.js";
 import FormValidator from "../components/FormValidator.js";
-import Section from "../utils/Section.js";
-import PopupWithForm from "../utils/PopupWithForm.js";
-import TodoCounter from "../utils/TodoCounter.js";
+import Section from "../components/Section.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import TodoCounter from "../components/TodoCounter.js";
 import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 
 // === DOM ELEMENTS ===
@@ -23,29 +23,31 @@ function parseDateInput(dateInput) {
 // === COUNTER INSTANCE ===
 const todoCounter = new TodoCounter(initialTodos, ".counter__text");
 
+// === CALLBACKS ===
+function handleCheck(evt, todoInstance) {
+  const isCompleted = evt.target.checked;
+  todoInstance.element.classList.toggle("todo_completed", isCompleted);
+  todoInstance.data.completed = isCompleted;
+  todoCounter.updateCompleted(isCompleted ? true : false);
+}
+
+function handleDelete(todo) {
+  const name = todo.data.name?.trim() || "this task";
+  if (!confirm(`Are you sure you want to delete the task: ${name}?`)) return;
+
+  const wasCompleted = todo.data.completed;
+
+  todo.element.remove();
+  todoCounter.updateTotal(false);
+  if (wasCompleted) {
+    todoCounter.updateCompleted(false);
+  }
+}
+
 // === TODO GENERATION ===
 function generateTodo(data) {
-  const todo = new Todo(data, "#todo-template");
-  const todoElement = todo.getView();
-
-  todoElement.addEventListener("change", (evt) => {
-    if (evt.target.classList.contains("todo__completed")) {
-      const checked = evt.target.checked;
-      todoCounter.updateCompleted(checked);
-    }
-  });
-
-  todoElement.addEventListener("click", (evt) => {
-    if (evt.target.classList.contains("todo__delete-btn")) {
-      if (todoElement.querySelector(".todo__completed").checked) {
-        todoCounter.updateCompleted(false);
-      }
-      todoCounter.updateTotal(false);
-      todoElement.remove();
-    }
-  });
-
-  return todoElement;
+  const todo = new Todo(data, "#todo-template", handleCheck, handleDelete);
+  return todo.getView();
 }
 
 // === SECTION INSTANCE ===
