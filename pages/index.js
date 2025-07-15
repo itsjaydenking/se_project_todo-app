@@ -51,10 +51,7 @@ function generateTodo(data) {
 // === SECTION INSTANCE ===
 const todoSection = new Section({
   items: initialTodos,
-  renderer: (item) => {
-    const todoElement = generateTodo(item);
-    todoSection._container.append(todoElement);
-  },
+  renderer: (item) => generateTodo(item),
   containerSelector: ".todos__list",
 });
 
@@ -66,8 +63,10 @@ const addTodoPopup = new PopupWithForm({
     const date = parseDateInput(inputValues.date);
     const id = uuidv4();
 
-    const newTodo = { name, date, id, completed: false };
-    todoSection.addItem(newTodo);
+    const newTodoData = { name, date, id, completed: false };
+    const newTodoElement = generateTodo(newTodoData);
+
+    todoSection.addItem(newTodoElement);
     todoCounter.updateTotal(true);
 
     formValidator.resetValidation();
